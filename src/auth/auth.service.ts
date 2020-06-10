@@ -24,8 +24,8 @@ export class AuthService {
   //   await user.save()
   // }
 
-  async validateUser(username, pass) {
-    const user = await this.usersService.getUser(username)
+  async validateUser(email, pass) {
+    const user = await this.usersService.getUser(email)
     if (user && user.password === pass) {
       const { password, ...result } = user
       return result
