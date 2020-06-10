@@ -1,4 +1,4 @@
-import { prop, modelOptions } from '@typegoose/typegoose'
+import { prop } from '@typegoose/typegoose'
 
 class Emails {
   @prop()
@@ -8,17 +8,9 @@ class Emails {
   verified?: boolean
 }
 
-@modelOptions({
-  schemaOptions: {
-    toJSON: { virtuals: true },
-  },
-})
-export class User {
+export class Auth {
   //@prop({ _id: false })
   //emails: Emails
-
-  @prop({ default: Date.now })
-  registeredAt: Date
 
   @prop({ required: true })
   password: string
