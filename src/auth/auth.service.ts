@@ -1,18 +1,17 @@
 import { Dependencies, Injectable } from '@nestjs/common'
 import { UsersService } from '../users/users.service'
-import { AuthDto } from './auth.dto'
-import { User } from '../users/users.schema'
-import { InjectModel } from 'nestjs-typegoose'
-import { ReturnModelType } from '@typegoose/typegoose'
+import { JwtService } from '@nestjs/jwt'
 
-@Dependencies(UsersService)
+@Dependencies(UsersService, JwtService)
 @Injectable()
 export class AuthService {
   constructor(
     //@InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
     private usersService: UsersService,
+    private jwtService: JwtService,
   ) {
     this.usersService = usersService
+    this.jwtService = jwtService
   }
 
   // async signUp(authDto: AuthDto): Promise<User> {
@@ -31,5 +30,12 @@ export class AuthService {
       return result
     }
     return null
+  }
+
+  async login(user) {
+    const payload = { username: user.username, sub: user.userId }
+    return {
+      access_token: this.jwtService.sign(payload),
+    }
   }
 }
